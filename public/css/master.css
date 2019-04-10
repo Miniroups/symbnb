@@ -1,0 +1,33 @@
+/* Page d'annonces globales */
+.adsCard {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.adsCard .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.adsCard .card-body .btn-info {
+    width: 60%;
+    margin: 0 auto;
+}
+
+/* Pages d'annonces unique */
+.container {
+    margin-top: 20px;
+}
+
+.ad-title {
+    padding: 2em;
+    background-size: cover;
+    background-position: center center;
+}
+
+.ad-title h1, .ad-title p, .carousel-caption h5, .carousel-caption p {
+    color: #fff;
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+}
