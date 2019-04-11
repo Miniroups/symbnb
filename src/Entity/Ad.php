@@ -26,7 +26,7 @@ class Ad
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=255, minMessage="Trop court", maxMessage="Trop long")
+     * @Assert\Length(min=10, max=255, minMessage="Votre titre doit faire au moins 10 caractères", maxMessage="Votre titre doit faire au plus 255 caractères")
      */
     private $title;
 
@@ -37,26 +37,31 @@ class Ad
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float", message="Merci d'écrire le prix en chiffres arabes.")
      */
     private $price;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=10, max=255, minMessage="Votre introduction doit faire au moins 10 caractères", maxMessage="Votre introduction doit faire au plus 255 caractères")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=100, minMessage="Votre description doit faire au moins 100 caractères (C'est moins qu'un tweet !)")
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url
      */
     private $coverImage;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer", message="Merci d'écrire le nombres de chambres en chiffres arabes.")
      */
     private $rooms;
 
@@ -65,6 +70,12 @@ class Ad
      * @Assert\Valid()
      */
     private $images;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ads")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
 
     public function __construct()
     {
@@ -202,6 +213,18 @@ class Ad
                 $image->setAd(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
