@@ -2,8 +2,9 @@
 
 namespace App\DataFixtures;
 
-use Faker\Factory;
 use App\Entity\Ad;
+use Faker\Factory;
+use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Image;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -22,6 +23,21 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
+
+        $adminRole = new Role();
+        $adminRole->setTitle('ROLE_ADMIN');
+        $manager->persist($adminRole);
+
+        $adminUser = new User();
+        $adminUser->setFirstName('David')
+                  ->setLastName('Roupsard')
+                  ->setEmail('david.roupsard@gmail.com')
+                  ->setHash($this->encoder->encodePassword($adminUser, 'password'))
+                  ->setPicture('https://randomuser.me/api/portraits/women/34.jpg')
+                  ->setIntroduction($faker->sentence())
+                  ->setDescription('<p>' . join('</p><p>', $faker->paragraphs(3)). '</p>')
+                  ->addUserRole($adminRole);
+        $manager->persist($adminUser);
 
         // Gestion des utilisateurs
         $users = [];
@@ -54,7 +70,7 @@ class AppFixtures extends Fixture
             $ad = new Ad();
 
             $title = $faker->sentence();
-            $coverImage = $faker->imageUrl(1000, 350);
+            $coverImage = $faker->imageUrl(1000, 350, 'abstract');
             $introduction = $faker->paragraph(2);
             $content = '<p>' . join('</p><p>', $faker->paragraphs(5)). '</p>';
 
@@ -71,7 +87,7 @@ class AppFixtures extends Fixture
             for ($j = 0; $j <= mt_rand(2,5); $j++) {
                 $image = new Image();
 
-                $image->setUrl($faker->imageUrl())
+                $image->setUrl($faker->imageUrl(640, 480, 'abstract'))
                       ->setCaption($faker->sentence())
                       ->setAd($ad);
 
