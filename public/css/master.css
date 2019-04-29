@@ -25,6 +25,14 @@
     padding: 2em;
     background-size: cover;
     background-position: center center;
+    display: flex;
+    flex-direction: column;
+}
+
+.ad-title .btn {
+    margin-top: 2em;
+    font-size: 1.5em;
+    line-height: 1.5em;
 }
 
 .ad-title h1, .ad-title p, .carousel-caption h5, .carousel-caption p {
@@ -50,4 +58,9 @@
 
 .datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
     color: firebrick !important;
+}
+
+/* Note avec étoiles */
+.rating i {
+    color: goldenrod;
 }
