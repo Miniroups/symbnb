@@ -87,6 +87,11 @@ class User implements UserInterface
      */
     private $userRoles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="booker")
+     */
+    private $bookings;
+
     public function getFullName() {
         return "{$this->firstName} {$this->lastName}";
     }
@@ -110,6 +115,7 @@ class User implements UserInterface
     {
         $this->ads = new ArrayCollection();
         $this->userRoles = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -267,7 +273,7 @@ class User implements UserInterface
     
     public function getSalt() {} // Récupère du sel pour le mettre dans le password, doublon avec l'algorithm bcrypt
 
-    public function eraseCredentials() {}
+    public function eraseCredentials() {} // Si données sensibles à effacer
 
     /**
      * @return Collection|Role[]
@@ -295,5 +301,36 @@ class User implements UserInterface
         }
 
         return $this;
-    } // Si données sensibles à effacer
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setBooker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getBooker() === $this) {
+                $booking->setBooker(null);
+            }
+        }
+
+        return $this;
+    }
 }
