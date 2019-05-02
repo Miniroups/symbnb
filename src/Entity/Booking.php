@@ -33,7 +33,7 @@ class Booking
     /**
      * @ORM\Column(type="datetime")
      * @Assert\Date(message="Attention la date d'arrivée doit être au bon format !")
-     * @Assert\GreaterThan("today", message="La d'arrivée ne doit pas s'être déjà passé")
+     * @Assert\GreaterThan("today", message="La d'arrivée ne doit pas s'être déjà passé", groups={"front"})
      */
     private $startDate;
 
@@ -60,9 +60,10 @@ class Booking
     private $comment;
     
     /**
-     * Appelé à chaque fois qu'on valide une réservation
+     * Appelé à chaque fois qu'on valide ou qu'on mets à jour une réservation
      * 
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      * 
      * @return void 
      */
