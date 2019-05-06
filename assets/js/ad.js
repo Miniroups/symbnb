@@ -1,3 +1,5 @@
+var $ = require('jquery');
+
 $('#add-image').click(function(){
     // Récupération des numéros de champs qui vont être créé
     const index = +$('#widgets-counter').val();

@@ -6,10 +6,11 @@
  */
 
 // any CSS you require will output into a single css file (app.css in this case)
-require('../css/app.css');
+require('../css/app.scss');
 require('../css/bootstrap.min.css');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-// const $ = require('jquery');
+var $ = require('jquery');
+global.$ = global.jQuery = $;
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+require('bootstrap');
