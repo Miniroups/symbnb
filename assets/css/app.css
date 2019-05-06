@@ -17,7 +17,7 @@
 }
 
 /* Pages d'annonces unique */
-.container {
+.container, .container-fluid {
     margin-top: 20px;
 }
 

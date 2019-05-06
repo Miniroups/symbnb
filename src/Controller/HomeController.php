@@ -2,41 +2,23 @@
 
 namespace App\Controller;
 
+use App\Repository\AdRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller; // ?? Deprecated ??
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller; // ?? Deprecated ??
 
 class HomeController extends Controller {
 
     /**
-     * @Route("/hello/{numb}", name="number", requirements={"numb"="\d+"})
-     */
-    public function number($numb) {
-        return new Response("Votre chiffre est le " . $numb);
-    }
-
-    /**
-     * @Route("/hello/{prenom}", name="hello")
-     * @Route("/hello")
-     * Page qui dit bonjour
-     */
-    public function hello($prenom = "default") {
-        return new Response("Bonjour " . $prenom . " ça va ?");
-    }
-
-    /**
      * @Route("/", name="homepage")
      */
-    public function home() {
-        $jambon = ['Serano' => 12, 'Bayonne' => 8, 'Roupsard' => 24, 'Tamere' => 72];
-
-        return $this->render(
-            'home.html.twig', [
-                'title' => 'Ouesh',
-                'tableau' => $jambon,
-            ]
-        );
+    public function home(AdRepository $adRepo, UserRepository $userRepo) {
+        return $this->render('home.html.twig', [
+            'ads' => $adRepo->findBestAds(),
+            'users' => $userRepo->findBestUsers()
+        ]);
     }
 
 }
